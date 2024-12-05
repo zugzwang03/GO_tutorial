@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
 func main() {
 	fmt.Println("Welcome to web verb in golang")
 	// PerformGetRequest()
-	PerformPostJsonRequest()
+	// PerformPostJsonRequest()
+	PerformPostFormRequest()
 }
 
 func PerformGetRequest() {
@@ -51,6 +53,27 @@ func PerformPostJsonRequest() {
 		panic(err)
 	}
 	defer response.Body.Close()
+	content, _ := io.ReadAll(response.Body)
+	fmt.Println(string(content))
+}
+
+func PerformPostFormRequest() {
+	const myUrl = "http://localhost:8000/postform"
+
+	// formdata
+
+	data := url.Values{}
+	data.Add("firstname", "shreya")
+	data.Add("lastname", "sarkar")
+	data.Add("email", "shreya@gmail.com")
+
+	response, err := http.PostForm(myUrl, data)
+	if err != nil {
+		panic(err)
+	}
+
+	defer response.Body.Close()
+
 	content, _ := io.ReadAll(response.Body)
 	fmt.Println(string(content))
 }
