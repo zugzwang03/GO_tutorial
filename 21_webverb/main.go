@@ -9,7 +9,8 @@ import (
 
 func main() {
 	fmt.Println("Welcome to web verb in golang")
-	PerformGetRequest()
+	// PerformGetRequest()
+	PerformPostJsonRequest()
 }
 
 func PerformGetRequest() {
@@ -30,4 +31,26 @@ func PerformGetRequest() {
 	byteCount, _ := responseString.Write(content)
 	fmt.Println("ByteCount is: ", byteCount)
 	fmt.Println("Response in string is: ", responseString.String())
+}
+
+func PerformPostJsonRequest() {
+	const myUrl = "http://localhost:8000/post"
+
+	// fake json payload
+
+	requestBody := strings.NewReader(`
+		{
+			"coursename":"let's go with golang",
+			"price": 0,
+			"platform":"anywebsite"
+		}
+	`)
+
+	response, err := http.Post(myUrl, "application/json", requestBody)
+	if err != nil {
+		panic(err)
+	}
+	defer response.Body.Close()
+	content, _ := io.ReadAll(response.Body)
+	fmt.Println(string(content))
 }
