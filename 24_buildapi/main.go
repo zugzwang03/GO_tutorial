@@ -40,22 +40,22 @@ func main() {
 
 	// seeding
 	courses = append(courses, Course{
-		CourseId: "2",
-		CourseName: "ReactJs",
+		CourseId:    "2",
+		CourseName:  "ReactJs",
 		CoursePrice: 299,
 		Author: &Author{
 			Fullname: "Shreya",
-			Website: "shreya.dev",
+			Website:  "shreya.dev",
 		},
 	})
 
 	courses = append(courses, Course{
-		CourseId: "4",
-		CourseName: "AngularJS",
+		CourseId:    "4",
+		CourseName:  "AngularJS",
 		CoursePrice: 289,
 		Author: &Author{
 			Fullname: "Ankur",
-			Website: "ankur.dev",
+			Website:  "ankur.dev",
 		},
 	})
 
@@ -99,7 +99,6 @@ func getOneCourse(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	json.NewEncoder(w).Encode("No Course found with given id")
-	return
 }
 
 func createOneCourse(w http.ResponseWriter, r *http.Request) {
@@ -126,7 +125,7 @@ func createOneCourse(w http.ResponseWriter, r *http.Request) {
 		if c.CourseName == course.CourseName {
 			json.NewEncoder(w).Encode("CourseName already present")
 			return
-		} 
+		}
 	}
 
 	// generate unique id, string
@@ -136,7 +135,6 @@ func createOneCourse(w http.ResponseWriter, r *http.Request) {
 	course.CourseId = strconv.Itoa(rand.Intn(100))
 	courses = append(courses, course)
 	json.NewEncoder(w).Encode(course)
-	return
 }
 
 func updateOneCourse(w http.ResponseWriter, r *http.Request) {
@@ -166,11 +164,11 @@ func deleteOneCourse(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(r)
-	
+
 	// loop, id, remove (index, index + 1)
 	for index, course := range courses {
 		if course.CourseId == params["id"] {
-			courses = append(courses[:index], courses[index + 1:]...)
+			courses = append(courses[:index], courses[index+1:]...)
 			json.NewEncoder(w).Encode("Course deleted")
 			return
 		}
